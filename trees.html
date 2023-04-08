@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <header>
+        <h2>My Plant Trees</h2>
+    </header>
+    
+    <button id="loadButton" onclick="toggleTrees()">Load Trees</button>
+    
+    <main>
+        <table id="treesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Height</th>
+                    <th>Location</th>
+                    <th>Description</th>
+                   
+                </tr>
+            </thead>
+            <tbody id="table-body">
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        function loadTrees() {
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "trees.php");
+            xmlhttp.send();
+            xmlhttp.onload = function () {
+                const trees = JSON.parse(this.responseText);
+                var tableBody = document.getElementById("table-body");
+                tableBody.innerHTML = ""; // clear existing rows
+                for (var i in trees) {
+                    var row = `<tr>
+                        <td>${trees[i].id}</td>
+                        <td>${trees[i].name}</td>
+                        <td>${trees[i].type}</td>
+                        <td>${trees[i].height}</td>
+                        <td>${trees[i].location}</td>
+                        <td>${trees[i].description}</td>
+                      
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                }
+            };
+        }
+
+        function toggleTrees() {
+    var table = document.getElementById("treesTable");
+    var button = document.getElementById("loadButton");
+    if (table.style.display === "none") {
+        table.style.display = "table";
+        loadTrees();
+        button.textContent = "Close";
+    } else {
+        table.style.display = "none";
+        button.textContent = "Load Trees";
+    }
+}
+
+    </script>
+</body>
+</html>
+
+
